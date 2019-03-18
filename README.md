@@ -1,4 +1,4 @@
-ofxncKinect
+ofxNCKinect
 ===========
 
 KINECT IS ALIVE!
