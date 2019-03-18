@@ -1,6 +1,7 @@
 # ofxncKinect
 
-KINECT IS ALIVE! After we heard the news Microsoft is reviving the Kinect we decided to upload our openFrameworks KinectV2 library.
+KINECT IS ALIVE!
+After we heard the news Microsoft is reviving the Kinect we decided to upload our openFrameworks KinectV2 library.
 
 This code is a collection of stuff we have been using for the last few years.
 Speed comes first, so we tried to create code that let's us choose what features we would need for a project (color vs no color, only 2d vs 3d tracking, etc...)
@@ -11,9 +12,11 @@ It is no way an official API, so use it at your own risk.
 ## Installation
 This code only works on Windows 10/64 bit systems
 
-1. Install openFrameworks
-[OF 0.10.1](https://openframeworks.cc/download/) use the master branch of this repo
-[OF 0.9.8](https://openframeworks.cc/download/older/) use the of_0_9_8 branch of this repo
+Install openFrameworks:
+-[OF 0.10.1](https://openframeworks.cc/download/) use the master branch of this repo
+-[OF 0.9.8](https://openframeworks.cc/download/older/) use the of_0_9_8 branch of this repo
+
+
 Required addons:
 -ofxOpenCV
 -ofxGui
