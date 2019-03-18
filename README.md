@@ -60,4 +60,3 @@ We support sending:
 ## exampleTriangulator
 ![example](https://raw.githubusercontent.com/wearenocomputer/ofxncKinect/master/images/1.jpg)
 Example on how to create a mesh from user point cloud data in real time.
-
