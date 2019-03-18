@@ -1,7 +1,9 @@
 ofxncKinect
 ===========
 
-KINECT IS ALIVE! After we heard the news Microsoft is reviving the Kinect we decided to upload our [openFrameworks](https://openframeworks.cc/) KinectV2 library.
+KINECT IS ALIVE!
+
+After we heard the news Microsoft is reviving the Kinect we decided to upload our [openFrameworks](https://openframeworks.cc/) KinectV2 library.
 
 This code is a collection of stuff we have been using for the last few years. Speed comes first, so we tried to create code that let's us choose what features we would need for a project (color vs no color, only 2d vs 3d tracking, etc...). It includes stuff like user management, 2d and 3d scene management, sending data over the network, pointcloud triangulation, gesture detection, area management, etc...
 
