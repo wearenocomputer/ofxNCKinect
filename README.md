@@ -1,1 +1,3 @@
 # ofxncKinect
+
+KINECT IS ALIVE
