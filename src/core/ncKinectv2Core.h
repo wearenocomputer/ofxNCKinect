@@ -5,7 +5,7 @@
 #include "ncKinectUser.h"
 
 
-#define GESTURES
+//#define GESTURES
 #ifdef GESTURES
 #include "ncKinectv2GestureDetector.h"
 #endif  
