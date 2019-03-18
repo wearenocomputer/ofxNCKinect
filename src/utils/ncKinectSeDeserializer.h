@@ -2,11 +2,12 @@
 #include "ofMain.h"
 #include "ncKinectUser.h"
 
+
 class ncKinectSeDeSerObject {
 
 public:
 	ofVec4f floorplane;
-	vector < glm::vec3 > vertices;
+	vector<ofVec3f> vertices;
 	vector<ncKinectUser> users;
 };
 
@@ -100,7 +101,7 @@ public:
 
 		int startPosFloorPlan = startfloorplan + FLOORPLANEBEGIN.length();
 		data += startPosFloorPlan;
-		memcpy(&object.floorplane, data, sizeof(glm::vec4));
+		memcpy(&object.floorplane, data, sizeof(ofVec4f));
 
 		//GET NUM VERTICES
 		int numVerts = getValue(buffer, NUM_VERTS_BEGIN, NUM_VERTS_END);
@@ -111,9 +112,9 @@ public:
 		//int endvertices = findDelimiter(buffer, VERTS_END);
 		int startPosVertices = startvertices + VERTS_BEGIN.length();
 		datavertices += startPosVertices;
-		int stepSize = sizeof(glm::vec3);
+		int stepSize = sizeof(ofVec3f);
 		for (int i = 0; i < numVerts; i++) {
-			glm::vec3 value;
+			ofVec3f value;
 			memcpy(&value, datavertices, stepSize);
 			datavertices += stepSize;
 			object.vertices.push_back(value);
@@ -146,10 +147,10 @@ public:
 				int startjoints = findDelimiter(buffer, tofind);
 				int startPosJoints = startjoints + tofind.length();
 				jointsdata += startPosJoints;
-				int stepSizeJoints = sizeof(glm::vec3);
+				int stepSizeJoints = sizeof(ofVec3f);
 				//find joints
 				for (int j = 0; j < _ncJointType::ncJointType_Count; j++) {
-					glm::vec3 jvalue;
+					ofVec3f jvalue;
 					memcpy(&jvalue, jointsdata, stepSize);
 					jointsdata += stepSize;
 					object.users[i].joints3dposition[j] = jvalue;
@@ -177,10 +178,10 @@ public:
 				int delimeterpos2dend = delimeterpos2dbegin + tofindpos2d.length();
 				unsigned char * jointspos2ddata = (unsigned char *)buffer.getData();
 				jointspos2ddata += delimeterpos2dend;
-				int stepSizeJointsPos2d = sizeof(glm::vec2);
+				int stepSizeJointsPos2d = sizeof(ofVec2f);
 			
 				for (int j = 0; j < ncJointType_Count; j++) {
-					glm::vec3 zvalue;
+					ofVec2f zvalue;
 					memcpy(&zvalue, jointspos2ddata, stepSizeJointsPos2d);
 					jointspos2ddata += stepSizeJointsPos2d;
 					object.users[i].joints2dposition[j] = zvalue;
@@ -194,9 +195,9 @@ public:
 		
 		//FLOORPLANE
 		buffer.append(FLOORPLANEBEGIN);
-		char sendData[sizeof(glm::vec4)];
-		memcpy(sendData, &source.floorplane, sizeof(glm::vec4));
-		buffer.append(sendData,sizeof(glm::vec4));
+		char sendData[sizeof(ofVec4f)];
+		memcpy(sendData, &source.floorplane, sizeof(ofVec4f));
+		buffer.append(sendData,sizeof(ofVec4f));
 		buffer.append(FLOORPLANEEND);
 
 		//VERTICES
@@ -207,8 +208,8 @@ public:
 		if (source.vertices.size() > 0) {
 			//SECOND ADD THE VERTICES
 			buffer.append(VERTS_BEGIN);
-			glm::vec3 *data = &source.vertices[0];
-			int dataSize = sizeof(glm::vec3)*source.vertices.size();
+			ofVec3f *data = &source.vertices[0];
+			int dataSize = sizeof(ofVec3f)*source.vertices.size();
 			buffer.append((const char *)data, dataSize);
 			buffer.append(VERTS_END);
 		}
@@ -230,8 +231,8 @@ public:
 
 				string jointsstart = "[SKEL_JOINTS" + ofToString(i) + "_START]";
 				buffer.append(jointsstart);
-				glm::vec3 *jdata = &source.users[i].joints3dposition[0];
-				int jdataSize = sizeof(glm::vec3)*source.users[i].joints3dposition.size();
+				ofVec3f *jdata = &source.users[i].joints3dposition[0];
+				int jdataSize = sizeof(ofVec3f)*source.users[i].joints3dposition.size();
 				buffer.append((const char *)jdata, jdataSize);
 
 				string jointsstartor = "[SKEL_JOINTS_ROTATION_" + ofToString(i) + "_START]";
@@ -242,8 +243,8 @@ public:
 
 				string jointsstart2d = "[SKEL_JOINTS_POSITION_2D" + ofToString(i) + "_START]";
 				buffer.append(jointsstart2d);
-				glm::vec2 *jdata2d = &source.users[i].joints2dposition[0];
-				int jdataSize2d = sizeof(glm::vec2)*source.users[i].joints2dposition.size();
+				ofVec2f *jdata2d = &source.users[i].joints2dposition[0];
+				int jdataSize2d = sizeof(ofVec2f)*source.users[i].joints2dposition.size();
 				buffer.append((const char *)jdata2d, jdataSize2d);
 			}
 		}

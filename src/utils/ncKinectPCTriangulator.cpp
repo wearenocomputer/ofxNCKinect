@@ -79,11 +79,11 @@ void ncKinectPCTriangulator::update() {
 		
 		for (int x = 0; x < depthWidth; x += sampleSize) {
 			
-			glm::vec3 vSpacePos = pointcloud->getVertex(xyIndex);
+			ofVec3f vSpacePos = pointcloud->getVertex(xyIndex);
 			
 			if (vertexType[index] != 0 && !isinf(vSpacePos.x) && !isinf(vSpacePos.y) && !isinf(vSpacePos.z)) {
 				
-				ofVec2f  colorPoint = core->convert2dPointToColorSpacePoint(glm::vec2(x, y));
+				ofVec2f  colorPoint = core->convert2dPointToColorSpacePoint(ofVec2f(x, y));
 				// Set Color to Point
 				int colorX = static_cast<int>(colorPoint.x + 0.5f);
 				int colorY = static_cast<int>(colorPoint.y + 0.5f);
@@ -161,7 +161,6 @@ void ncKinectPCTriangulator::draw() {
 		glPointSize(1);
 	}
 	else {
-		//usermesh.draw();
 		usermesh.drawWireframe();
 	}
 	kinectcamera->end();
@@ -199,8 +198,8 @@ void ncKinectPCTriangulator::estimateUserVertices(int & vCount, int & tCount) {
 	vertexIndex.clear();
 	vertexIndex.resize(sampledWidth * sampledHeight);
 
-	vector<glm::vec3> vSpacePos;
-	vSpacePos.assign(4, glm::vec3(0));
+	vector<ofVec3f> vSpacePos;
+	vSpacePos.assign(4, ofVec3f(0));
 
 	int rowIndex = 0;
 
@@ -247,7 +246,7 @@ void ncKinectPCTriangulator::estimateUserVertices(int & vCount, int & tCount) {
 	}
 }
 
-bool ncKinectPCTriangulator::isUserSampleValid(int x, int y, glm::vec3 & vSpacePos) {
+bool ncKinectPCTriangulator::isUserSampleValid(int x, int y, ofVec3f & vSpacePos) {
 	int startIndex = y * sampleSize * depthWidth + x * sampleSize;
 
 	int pixelIndex = startIndex;
@@ -266,14 +265,14 @@ bool ncKinectPCTriangulator::isUserSampleValid(int x, int y, glm::vec3 & vSpaceP
 
 }
 
-bool ncKinectPCTriangulator::isSpacePointsClose(vector < glm::vec3 > vSpacePos, float fMinDistSquared) {
+bool ncKinectPCTriangulator::isSpacePointsClose(vector<ofVec3f> vSpacePos, float fMinDistSquared) {
 	int iPosLength = vSpacePos.size();
 
 	for (int i = 0; i < iPosLength; i++)
 	{
 		for (int j = i + 1; j < iPosLength; j++)
 		{
-			glm::vec3 vDist = vSpacePos[j] - vSpacePos[i];
+			ofVec3f vDist = vSpacePos[j] - vSpacePos[i];
 
 			float sqrMag = vDist.x * vDist.x + vDist.y * vDist.y + vDist.z * vDist.z;
 

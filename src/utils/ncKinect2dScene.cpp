@@ -7,7 +7,7 @@ ofPath ncKinect2dScene::polysToPath(vector<ofPolyline> _polylines) {
 	ofPath path;
 
 	for (int i = 0; i<_polylines.size(); i++) {
-		vector<glm::vec3> vertices = _polylines[i].getVertices();
+		vector<ofPoint> vertices = _polylines[i].getVertices();
 
 		for (int v = 0; v<vertices.size(); v++) {
 			if (v == 0) path.moveTo(vertices[v].x, vertices[v].y);
@@ -24,7 +24,7 @@ void ncKinect2dScene::setupGUI() {
 	gui.setup("KinectTwoDScene" + ofToString(id), "_settings/kinect2dscene" + ofToString(id) + ".xml");
 	gui.add(bDoBlur.set("do blur contours", false));
 	gui.add(bluramount.set("blur amount", 0, 0, 20));
-	gui.add(scalecontour.set("scale contour", 1, 0.1, 2.0));
+	gui.add(new ofxFloatSliderPlus(scalecontour.set("scale contour", 1, 0.1, 2.0)));
 	gui.add(bDoResample.set("resample contour", false));
 	gui.add(resamplecount.set("resample count", 80, 10, 1000));
 	gui.add(erodecount.set("erode count", 0, 0, 10));
@@ -175,11 +175,9 @@ vector<ofPolyline> ncKinect2dScene::getContours(ofPixels & _usermap) {
 	}
 
 	for (int i = 0; i<(int)contourlines.size(); i++) {
-		glm::vec2 center = contourlines[i].getCentroid2D();
-		ofPoint centerdd = contourlines[i].getCentroid2D();
-		ofPoint centerd = centerdd *scalecontour;
-
-		glm::vec2 diff = center - centerd;
+		ofVec2f center = contourlines[i].getCentroid2D();
+		ofVec2f centerd = contourlines[i].getCentroid2D()*scalecontour;
+		ofVec2f diff = center - centerd;
 		for (int j = 0; j<(int)contourlines[i].size(); j++) {
 			contourlines[i][j].x *= scalecontour;
 			contourlines[i][j].y *= scalecontour;

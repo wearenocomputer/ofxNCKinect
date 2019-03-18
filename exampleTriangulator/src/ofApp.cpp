@@ -3,7 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetFrameRate(30);
-	ofBackground(0);
 	kinectcore.setup(true);
 	kinectcamera.setup();
 	kinectusermanager.setup(kinectcore.getUsers(), kinectcamera);

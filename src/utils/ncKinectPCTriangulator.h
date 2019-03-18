@@ -60,13 +60,13 @@ private:
 	vector<int> vertexType;
 	vector<int> vertexIndex;
 
-	vector < glm::vec3 > vertices;
-	vector < glm::vec2 > uvs;
+	vector<ofVec3f> vertices;
+	vector<ofVec2f> uvs;
 	vector<GLuint> triangles;
 
 	void estimateUserVertices(int &vCount, int &tCount);
-	bool isUserSampleValid(int x, int y, glm::vec3 &vSpacePos);
-	bool isSpacePointsClose(vector<glm::vec3> vSpacePos, float fMinDistSquared);
+	bool isUserSampleValid(int x, int y, ofVec3f & vSpacePos);
+	bool isSpacePointsClose(vector<ofVec3f> vSpacePos, float fMinDistSquared);
 
 	ofImage silhouetteimage;
 

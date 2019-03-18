@@ -76,7 +76,7 @@ public:
 	}
 
 	void draw() {
-		if (getGlobalPosition() != glm::vec3(0)) {
+		if (getGlobalPosition() != ofVec3f(0)) {
 			transformGL();
 			ofSetColor(bonecolor);
 			bonecube.drawWireframe();
@@ -96,9 +96,9 @@ public:
 	int id;
 	UINT64 kinectid;
 	ofColor color;
-	vector<glm::vec3> joints3dposition;
+	vector<ofVec3f> joints3dposition;
 	vector<ofQuaternion> joints3drotation;
-	vector<glm::vec2> joints2dposition;
+	vector<ofVec2f> joints2dposition;
 	vector<nc3DBone> bones3D;
 	vector<nc3DBone> bonesVanity3D;
 	ofPixels userpixels;
@@ -174,7 +174,7 @@ public:
 	bool isUserMoving() {
 
 		//USE STANDARD DEVIATION
-		glm::vec3 sum = glm::vec3(0, 0, 0), mean = glm::vec3(0, 0, 0), standardDeviation = glm::vec3(0, 0, 0);
+		ofVec3f sum = ofVec3f(0, 0, 0), mean = ofVec3f(0, 0, 0), standardDeviation = ofVec3f(0, 0, 0);
 
 		for (int i = 0; i < recordedpositions.size(); ++i)
 		{
@@ -185,17 +185,17 @@ public:
 
 		for (int i = 0; i < recordedpositions.size(); ++i) {
 
-			glm::vec3 dev = glm::vec3(pow(recordedpositions[i].x - mean.x, 2), pow(recordedpositions[i].y - mean.y, 2), pow(recordedpositions[i].z - mean.z, 2));
+			ofVec3f dev = ofVec3f(pow(recordedpositions[i].x - mean.x, 2), pow(recordedpositions[i].y - mean.y, 2), pow(recordedpositions[i].z - mean.z, 2));
 			standardDeviation += dev;
 		}
 
 		standardDeviation = standardDeviation / recordedpositions.size();
 
-		glm::vec3 stddev = glm::vec3(sqrt(standardDeviation.x), sqrt(standardDeviation.y), sqrt(standardDeviation.z));
+		ofVec3f stddev = ofVec3f(sqrt(standardDeviation.x), sqrt(standardDeviation.y), sqrt(standardDeviation.z));
 
-		glm::vec3 normal = glm::vec3(0, 0, 0);
+		ofVec3f normal = ofVec3f(0, 0, 0);
 
-		float distance = glm::distance(stddev, normal);//stddev.distance(normal);
+		float distance = stddev.distance(normal);
 
 		if (distance > threshold) {
 			return true;
@@ -205,7 +205,7 @@ public:
 		}
 	}
 
-	void setBoneDimensions(glm::vec2 _dimensions) {
+	void setBoneDimensions(ofVec2f _dimensions) {
 		for (size_t i = 0; i < bones3D.size(); i++) {
 			bones3D[i].setBoneDimension(_dimensions);
 		}
@@ -248,5 +248,5 @@ public:
 private:
 	int framestorecord;
 	float threshold;
-	vector<glm::vec3> recordedpositions;
+	vector<ofVec3f> recordedpositions;
 };

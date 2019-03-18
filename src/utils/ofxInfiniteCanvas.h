@@ -47,8 +47,8 @@ public:
     //-------   getters/setters
     void setFlipY(bool bFlipped);
     bool getYFlipped(){return bFlipY;}
-    glm::vec3 getTranslation(){return translation;}
-	void setTranslation(glm::vec3 t);
+    ofVec3f getTranslation(){return translation;}
+	void setTranslation(ofVec3f t);
 	float getScale(){return scale;}
 	void setScale(float s);
     
@@ -75,24 +75,18 @@ public:
 
     void setOverrideMouse(bool b);
     bool isMouseOverride(){return bMouseOverride;}
-	
-	void setOffset(const glm::vec3& o);
-	glm::vec3 getOffset();
     //-------   parameters
     ofParameterGroup parameters;
 
     //-------   utils
-    glm::vec3 screenToWorld(glm::vec3 screen);
-	glm::vec3 worldToScreen(glm::vec3 world);
+    ofVec3f screenToWorld(ofVec3f screen);
+	ofVec3f worldToScreen(ofVec3f world);
 
 	void save(string path);
 	bool load(string path);
-    ofCamera cam;
-    void toggleOfCam();
 protected:
 
-    bool bUseOfCam;
-    glm::vec3 orientation;
+    ofVec3f orientation;
     void enableMouseInputCB(bool &e);
     ofRectangle viewport;
     bool bApplyInertia;
@@ -102,13 +96,13 @@ protected:
     bool bMouseInputEnabled;
     bool bDistanceSet;
     bool bEventsSet;
-    glm::vec3 move;
+    ofVec3f move;
 	ofParameter<float> scale;
     float clicScale;
 	
 	ofParameterGroup protectedParameters;
-	ofParameter<glm::vec3>translation;
-    glm::vec3 clicTranslation, offset;
+	ofParameter<ofVec3f>translation;
+    ofVec3f clicTranslation;
     ofParameter<bool> bEnableMouse,bFlipY;
     ofParameter<float> dragSensitivity, scrollSensitivity, drag, farClip, nearClip;
     
@@ -119,16 +113,15 @@ protected:
     
     void enableMouseListeners(bool e = true);
     bool bMouseListenersEnabled;
-    glm::vec2 prevMouse, clicPoint;
+    ofVec2f prevMouse, clicPoint;
  
-    glm::vec2 mouseVel;
+    ofVec2f mouseVel;
     
     void update(ofEventArgs & args);
     
     void updateMouse();
     
-//    ofMatrix4x4
-    glm::mat4 orientationMatrix;
+    ofMatrix4x4 orientationMatrix;
     
     unsigned long lastTap;
     

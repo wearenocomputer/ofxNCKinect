@@ -39,9 +39,9 @@ void ofxMeshUtils::calcNormals( ofMesh & mesh, bool bNormalize ){
         const int ib = mesh.getIndices()[i+1];
         const int ic = mesh.getIndices()[i+2];
         
-		glm::vec3 e1 = mesh.getVertices()[ia] - mesh.getVertices()[ib];
-		glm::vec3 e2 = mesh.getVertices()[ic] - mesh.getVertices()[ib];
-		glm::vec3 no = glm::cross(e1, e2);//e2.cross( e1 );
+        ofVec3f e1 = mesh.getVertices()[ia] - mesh.getVertices()[ib];
+        ofVec3f e2 = mesh.getVertices()[ic] - mesh.getVertices()[ib];
+        ofVec3f no = e2.cross( e1 );
         
         // depending on your clockwise / winding order, you might want to reverse the e2 / e1 above if your normals are flipped. 
         
@@ -52,8 +52,7 @@ void ofxMeshUtils::calcNormals( ofMesh & mesh, bool bNormalize ){
     
     if (bNormalize)
     for(int i=0; i < mesh.getNormals().size(); i++ ) {
-		glm::vec3 r = mesh.getNormals()[i];
-        mesh.getNormals()[i] = glm::normalize(r);
+        mesh.getNormals()[i].normalize();   
     }
 }
 

@@ -2,10 +2,10 @@
 
 void nCKinectCamera::setupGUI() {
 	gui.setup("Kinect Camera", "_settings/kinectcamera.xml");
-	gui.add(kinectcamxposin3dworld.set("x pos in 3d world", 0, -5, 5));
-	gui.add(kinectcamyposin3dworld.set("y pos in 3d world", 0, -5, 5));
-	gui.add(kinectcamzposin3dworld.set("z pos in 3d world", 0, -5, 5));
-	gui.add(kinectyawin3dworld.set("yaw in 3d world", 0, -180, 180));
+	gui.add(new ofxFloatSliderPlus(kinectcamxposin3dworld.set("x pos in 3d world", 0, -5, 5)));
+	gui.add(new ofxFloatSliderPlus(kinectcamyposin3dworld.set("y pos in 3d world", 0, -5, 5)));
+	gui.add(new ofxFloatSliderPlus(kinectcamzposin3dworld.set("z pos in 3d world", 0, -5, 5)));
+	gui.add(new ofxFloatSliderPlus(kinectyawin3dworld.set("yaw in 3d world", 0, -180, 180)));
 	gui.add(freezeFloorplane.set("freeze floorplane", false));
 	gui.add(drawCamera.set("draw camera", true));
 	gui.add(mapKinectto3DWorld.set("map Kinect to 3d world", true));
@@ -65,6 +65,17 @@ void nCKinectCamera::update(ofVec4f _floorplane){
 		floorplane = _floorplane;
 	}
 
+	
+	/*if (freezefloorplanecounter < 2) {
+		floorplane = _floorplane;
+		if (ofGetFrameNum() % 60 == 0) {
+			freezefloorplanecounter++;
+		}
+	} else {
+		if (!freezeFloorplane) {
+			floorplane = _floorplane;
+		}
+	}*/
 
 	//http://blog.hackandi.com/inst/blog/2014/03/18/convert-kinect-cameraspace-to-worldspace-relative-to-floor/
 	ofVec3f up = ofVec3f(floorplane.x, floorplane.y, floorplane.z);
@@ -146,41 +157,3 @@ void nCKinectCamera::draw() {
 	ofDrawAxis(0.5);
 	model.drawWireframe();
 }
-
-
-void nCKinectCamera::setTransformMatrix(const ofMatrix4x4 &m44) {
-	ofVec3f position;
-	ofQuaternion orientation;
-	ofVec3f scale;
-	ofQuaternion so;
-	m44.decompose(position, orientation, scale, so);
-	setPosition(position);
-	setOrientation(orientation);
-	setScale(scale);
-	updateAxis();
-	onPositionChanged();
-	onOrientationChanged();
-	onScaleChanged();
-}
-
-
-/*
-//----------------------------------------
-void ofNode::setTransformMatrix(const ofMatrix4x4 &m44) {
-	localTransformMatrix = m44;
-
-	ofVec3f position;
-	ofQuaternion orientation;
-	ofVec3f scale;
-	ofQuaternion so;
-	localTransformMatrix.decompose(position, orientation, scale, so);
-	this->position = position;
-	this->orientation = orientation;
-	this->scale = scale;
-	updateAxis();
-
-	onPositionChanged();
-	onOrientationChanged();
-	onScaleChanged();
-}
-*/

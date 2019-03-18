@@ -1,0 +1,8 @@
+<group>
+	<sleeptime>1</sleeptime>
+	<kinect_x_pos>0</kinect_x_pos>
+	<kinect_y_pos>0</kinect_y_pos>
+	<kinect_z_pos>0</kinect_z_pos>
+	<kinect_y_rotation>0</kinect_y_rotation>
+<group/>
+</group>

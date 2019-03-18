@@ -3,6 +3,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
+#include "ofxGuiPlus\ofxSliderPlus.h"
 #include "ncKinectUser.h"
 
 class ncKinectInteractionSpace :public ofNode {
@@ -13,13 +14,13 @@ public:
 
 	ofMesh userselectmesh;
 
-	glm::vec3 uppercorner;
-	glm::vec3 lowercorner;
+	ofVec3f uppercorner;
+	ofVec3f lowercorner;
 
-	bool isPointInsideInteractionSpace(glm::vec3 &_point) {
+	bool isPointInsideInteractionSpace(ofVec3f &_point) {
 
-		glm::vec3 newlower = lowercorner + getPosition();
-		glm::vec3 newhigher = uppercorner + getPosition();
+		ofVec3f newlower = lowercorner + getPosition();
+		ofVec3f newhigher = uppercorner + getPosition();
 
 		if (_point.x > newlower.x && _point.x < newhigher.x &&
 			_point.y > newlower.y && _point.y <newhigher.y &&
@@ -33,7 +34,7 @@ public:
 	}
 
 
-	void create(glm::vec2 _widthdepth) {
+	void create(ofVec2f _widthdepth) {
 
 		mesh.clear();
 		ofBoxPrimitive space;
@@ -46,8 +47,8 @@ public:
 
 			for (auto &it : _oldmesh.getVertices()) {
 
-				glm::vec3 oldvertex = it;
-				mesh.addVertex(glm::vec3(it.x, it.y + (space.getHeight() / 2.0f), it.z + -(space.getDepth() / 2.0f)));
+				ofVec3f oldvertex = it;
+				mesh.addVertex(ofVec3f(it.x, it.y + (space.getHeight() / 2.0f), it.z + -(space.getDepth() / 2.0f)));
 			}
 
 			for (auto &it : _oldmesh.getNormals()) {
@@ -69,7 +70,7 @@ public:
 			for (int i = 0; i< mesh.getNumVertices(); i++) {
 
 
-				glm::vec3 vertex = mesh.getVertex(i);
+				ofVec3f vertex = mesh.getVertex(i);
 
 				float distance = (vertex.z) + (vertex.y) + (vertex.x);
 				//check higestdistance above 0
@@ -112,14 +113,14 @@ public:
 		plane.setPosition(0, 0, -throwdistance);
 
 
-		glm::vec3 v0 = glm::vec3(0, 0, 0);
-		glm::vec3 v1 = glm::vec3(plane.getWidth() / 2.0f, plane.getHeight() / 2.0f, -throwdistance);
-		glm::vec3 v2 = glm::vec3(-plane.getWidth() / 2.0f, plane.getHeight() / 2.0f, -throwdistance);
-		glm::vec3 v3 = glm::vec3(plane.getWidth() / 2.0f, -plane.getHeight() / 2.0f, -throwdistance);
-		glm::vec3 v4 = glm::vec3(-plane.getWidth() / 2.0f, -plane.getHeight() / 2.0f, -throwdistance);
+		ofVec3f v0 = ofVec3f(0, 0, 0);
+		ofVec3f v1 = ofVec3f(plane.getWidth() / 2.0f, plane.getHeight() / 2.0f, -throwdistance);
+		ofVec3f v2 = ofVec3f(-plane.getWidth() / 2.0f, plane.getHeight() / 2.0f, -throwdistance);
+		ofVec3f v3 = ofVec3f(plane.getWidth() / 2.0f, -plane.getHeight() / 2.0f, -throwdistance);
+		ofVec3f v4 = ofVec3f(-plane.getWidth() / 2.0f, -plane.getHeight() / 2.0f, -throwdistance);
 
 		ofFloatColor color = ofFloatColor(1.0,0.0,0.0,1);
-		vector<glm::vec3> vertices;
+		vector<ofVec3f> vertices;
 		vector<ofFloatColor> colors;
 		vertices.push_back(v0);
 		colors.push_back(color);
@@ -160,20 +161,20 @@ public:
 		mesh.addTriangle(4, 1, 3);
 
 
-		glm::vec3 n0 = glm::vec3(0, 0, 1);
-		glm::vec3 n1 = glm::vec3(0, 0, 1);
-		glm::vec3 n2 = glm::vec3(0, 0, 1);
-		glm::vec3 n3 = glm::vec3(0, 0, 1);
-		glm::vec3 n4 = glm::vec3(0, 0, 1);
+		ofVec3f n0 = ofVec3f(0, 0, 1);
+		ofVec3f n1 = ofVec3f(0, 0, 1);
+		ofVec3f n2 = ofVec3f(0, 0, 1);
+		ofVec3f n3 = ofVec3f(0, 0, 1);
+		ofVec3f n4 = ofVec3f(0, 0, 1);
 
-		glm::vec3 n5 = glm::vec3(0, 0, -1);
-		glm::vec3 n6 = glm::vec3(0, 0, -1);
-		glm::vec3 n7 = glm::vec3(0, 0, -1);
-		glm::vec3 n8 = glm::vec3(0, 0, -1);
-		glm::vec3 n9 = glm::vec3(0, 0, -1);
+		ofVec3f n5 = ofVec3f(0, 0, -1);
+		ofVec3f n6 = ofVec3f(0, 0, -1);
+		ofVec3f n7 = ofVec3f(0, 0, -1);
+		ofVec3f n8 = ofVec3f(0, 0, -1);
+		ofVec3f n9 = ofVec3f(0, 0, -1);
 
 
-		vector<glm::vec3> normals;
+		vector<ofVec3f> normals;
 		normals.push_back(n0);
 		normals.push_back(n1);
 		normals.push_back(n2);
@@ -232,12 +233,12 @@ public:
 	
 	void setup();
 	void update();
-	void updatePositionRotation(glm::vec3 _pos, ofQuaternion _rot);
+	void updatePositionRotation(ofVec3f _pos, ofQuaternion _rot);
 
 	void draw();
 	void drawGUI();
 
-	bool isUserInInteractionSpace(glm::vec3 _pos);
+	bool isUserInInteractionSpace(ofVec3f _pos);
 	bool isUserInInteractionSpace(ncKinectUser _user);
 	bool isThereAUserInInteractiveSpace(vector<ncKinectUser> _users);
 	vector<ncKinectUser> returnUsersInInteractionspace(vector<ncKinectUser> _users);

@@ -33,19 +33,19 @@ void ncKinectAreaManager::update() {
 
 }
 
-void ncKinectAreaManager::updatePositionRotation(glm::vec3 _pos, ofQuaternion _rot) {
+void ncKinectAreaManager::updatePositionRotation(ofVec3f _pos, ofQuaternion _rot) {
 
 	kinectdepthfrustrum.setPosition(_pos);
 	kinectdepthfrustrum.setOrientation(_rot);
-	interactionspace.setPosition(glm::vec3(_pos.x, interactionspace.getPosition().y, _pos.z));
+	interactionspace.setPosition(ofVec3f(_pos.x, interactionspace.getPosition().y, _pos.z));
 
 }
 
 void ncKinectAreaManager::setupGUI() {
 	gui.setup("Kinect Area", "_settings/area.xml");
-	gui.add(kinectspacedepth.set("kinect depth", 4.5, 0.5, 8));
-	gui.add(interactionspacewidth.set("interac width", 1.5, 0, 10));
-	gui.add(interactionspacedepth.set("interac depth", 2, 0, 10));
+	gui.add(new ofxFloatSliderPlus(kinectspacedepth.set("kinect depth", 4.5, 0.5, 8)));
+	gui.add(new ofxFloatSliderPlus(interactionspacewidth.set("interac width", 1.5, 0, 10)));
+	gui.add(new ofxFloatSliderPlus(interactionspacedepth.set("interac depth", 2, 0, 10)));
 	gui.add(bDrawDepthFrustrum.set("draw depth fr", true));
 	gui.add(bDrawInteractionSpace.set("draw inter sp", true));
 	kinectspacedepth.addListener(this, &ncKinectAreaManager::kinectSpaceDepthChanged);
@@ -102,7 +102,7 @@ void ncKinectAreaManager::drawGUI() {
 	gui.draw();
 }
 
-bool ncKinectAreaManager::isUserInInteractionSpace(glm::vec3 _pos) {
+bool ncKinectAreaManager::isUserInInteractionSpace(ofVec3f _pos) {
 	return interactionspace.isPointInsideInteractionSpace(_pos);
 }
 

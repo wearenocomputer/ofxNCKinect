@@ -1,13 +1,11 @@
 #pragma once
 #include "ofMain.h"
 
-
-
 class  NCJoints :public ofNode {
 public:
 	
 	ofSpherePrimitive sphere;
-	vector<glm::vec3> positions;
+	vector<ofVec3f> positions;
 
 	virtual void setup() {
 		sphere.set(0.05, 10);

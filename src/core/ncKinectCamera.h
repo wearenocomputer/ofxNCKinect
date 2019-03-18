@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-
+#include "ofxGuiPlus\ofxSliderPlus.h"
 
 class nCKinectCamera : public ofNode {
 
@@ -46,8 +46,6 @@ public:
 
 	ofVec3f getKinectCameraPosition();
 	ofQuaternion getKinectCameraRotation();
-
-	void setTransformMatrix(const ofMatrix4x4 &m44);
 
 	
 };

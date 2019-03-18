@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<TCP>
-	<sleeptime>5</sleeptime>
-	<send_pointcloud>1</send_pointcloud>
-</TCP>

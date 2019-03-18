@@ -3,15 +3,13 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetFrameRate(30);
-	ofBackground(0);
-	kinectcore.setup(true);
+	kinectcore.setup();
 	kinectcamera.setup();
 	kinectusermanager.setup(kinectcore.getUsers(), kinectcamera);
 	kinectscene.setup(kinectcore, kinectusermanager, kinectcamera);
 
 	ofAddListener(ncKinectEventDispatcher::NCEVENTDISPATCHER.NEW_USER, this, &ofApp::newUser);
 	ofAddListener(ncKinectEventDispatcher::NCEVENTDISPATCHER.LOST_USER, this, &ofApp::lostUser);
-
 }
 
 //--------------------------------------------------------------

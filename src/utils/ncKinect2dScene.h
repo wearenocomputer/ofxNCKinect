@@ -6,6 +6,7 @@
 #include "ncKinectCamera.h"
 #include "ofxOpenCv.h"
 #include "ofxGui.h"
+#include "ofxGuiPlus\ofxSliderPlus.h"
 
 class ncKinect2dScene {
 
@@ -34,6 +35,7 @@ private:
 public:
 	~ncKinect2dScene();
 	ncKinect2dScene();
+
 
 	static ofPath polysToPath(vector<ofPolyline> _polylines);
 

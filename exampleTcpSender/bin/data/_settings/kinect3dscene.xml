@@ -1,1 +1,13 @@
-<?xml version="1.0"?>
+<group>
+	<draw_grid>1</draw_grid>
+	<draw_pointcloud>1</draw_pointcloud>
+	<draw_users_pointcloud>1</draw_users_pointcloud>
+	<draw_users_skeletons>1</draw_users_skeletons>
+	<set_cam_free>1</set_cam_free>
+	<set_cam_left>0</set_cam_left>
+	<set_cam_right>0</set_cam_right>
+	<set_cam_top>0</set_cam_top>
+	<set_cam_bottom>0</set_cam_bottom>
+	<set_cam_front>0</set_cam_front>
+	<set_cam_back>0</set_cam_back>
+</group>
