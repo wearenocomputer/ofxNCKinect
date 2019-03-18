@@ -11,12 +11,10 @@ It is no way an official API, so use it at your own risk.
 ## Installation
 This code only works on Windows 10/64 bit systems
 
-1. Install openFrameworks
-[OF 0.10.1](https://openframeworks.cc/download/) use the master branch of this repo
-[OF 0.9.8](https://openframeworks.cc/download/older/) use the of_0_9_8 branch of this repo
-Required addons:
--ofxOpenCV
--ofxGui
+1. Install openFrameworks:
+
+*[OF 0.10.1](https://openframeworks.cc/download/) use the master branch of this repo
+*[OF 0.9.8](https://openframeworks.cc/download/older/) use the of_0_9_8 branch of this repo
 
 2. Install the KinectV2 sdk
 https://www.microsoft.com/en-us/download/details.aspx?id=44561
