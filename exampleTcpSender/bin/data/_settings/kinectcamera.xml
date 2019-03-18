@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Kinect_Camera>
+	<x_pos_in_3d_world>0</x_pos_in_3d_world>
+	<y_pos_in_3d_world>0</y_pos_in_3d_world>
+	<z_pos_in_3d_world>0</z_pos_in_3d_world>
+	<yaw_in_3d_world>0</yaw_in_3d_world>
+	<freeze_floorplane>0</freeze_floorplane>
+	<draw_camera>1</draw_camera>
+	<map_Kinect_to_3d_world>1</map_Kinect_to_3d_world>
+</Kinect_Camera>

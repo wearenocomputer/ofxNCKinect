@@ -1,0 +1,11 @@
+<group>
+	<do_blur_contours>0</do_blur_contours>
+	<blur_amount>0</blur_amount>
+	<scale_contour>0.945502</scale_contour>
+	<resample_contour>1</resample_contour>
+	<resample_count>311</resample_count>
+	<erode_count>0</erode_count>
+	<dilate_count>0</dilate_count>
+	<dilate_first>0</dilate_first>
+<group/>
+</group>

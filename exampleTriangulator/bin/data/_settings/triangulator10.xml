@@ -1,0 +1,10 @@
+<group>
+	<draw_grid>1</draw_grid>
+	<rotate>0</rotate>
+	<clamp_position>1</clamp_position>
+	<color_blend>0</color_blend>
+	<point_cloud>0</point_cloud>
+	<point_size>6.715</point_size>
+	<draw_debug_contours>1</draw_debug_contours>
+<group/>
+</group>
