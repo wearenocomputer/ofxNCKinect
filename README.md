@@ -29,7 +29,7 @@ This code only works on Windows 10/64 bit systems.
 
 To compile the examples use the openFrameworks project generator and the Kinect64.props file to set the paths to the Kinect SDK.  Build for 64 bit.
 
-![example](https://raw.githubusercontent.com/wearenocomputer/ofxncKinect/master/images/pm.jpg)
+<img src="https://raw.githubusercontent.com/wearenocomputer/ofxncKinect/master/images/pm.jpg" align="left" height="450" width="405" >
 
 Use the Property Manager in Visual Studio to add the Kinect64.props file.
 
