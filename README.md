@@ -29,6 +29,9 @@ This code only works on Windows 10/64 bit systems.
 
 To compile the examples use the openFrameworks project generator and the Kinect64.props file to set the paths to the Kinect SDK.  Build for 64 bit.
 
+![example](https://raw.githubusercontent.com/wearenocomputer/ofxncKinect/master/images/pm.jpg)
+Use the Property Manager in Visual Studio to add the Kinect64.props file.
+
 Standing on the shoulders of giants
 -----------------------------------
 Love to the [openFrameworks](https://openframeworks.cc/) community!
