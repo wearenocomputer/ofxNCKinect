@@ -1,3 +1,3 @@
 ofxGui
-ofxncKinect
+ofxNCKinect
 ofxOpenCv
