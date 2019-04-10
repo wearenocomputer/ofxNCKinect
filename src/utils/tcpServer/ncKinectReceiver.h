@@ -9,12 +9,11 @@
 class ncKinectReceiver : public ofThread {
 
 	public:
-		void setup(int _port, int _id);
+		void setup(int _port, int _id, int _x, int _y);
 		void update();
 		void draw();
 
 		void drawGUI();
-
 
 		void start();
 		void stop();
@@ -22,10 +21,15 @@ class ncKinectReceiver : public ofThread {
 		void threadedFunction();
 
 		bool bisthreadrunning;
-		bool bisconnected;
+
+		ofParameter <bool> bisconnected;
 		
 		ncKinectSeDeSerObject getData();
 		ofMutex mutex;
+
+		void askPointCloudPressed();
+
+		NCKinectScene kinectscene;
 
 private:
 	SocketServer *receiver_one;
@@ -38,9 +42,12 @@ private:
 	ofParameter <float> kinectcamypos;
 	ofParameter <float> kinectcamzpos;
 	ofParameter <float> kinectyrotation;
+	ofxButton buttonAskpointcloud;
 
 	int port;
-	NCKinectScene kinectscene;
+	
+
+	bool bAskPointCloud;
 
 
 };

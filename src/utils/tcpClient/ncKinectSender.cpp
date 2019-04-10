@@ -10,10 +10,10 @@ void ncKinectSender::setup(int _id, string _host, int _port){
 
 	bisthreadrunning = false;
 	bisconnected = false;
+	bsendpointcloud = false;
 
 	gui.setup("TCP", "_settings/tcp_sender.xml");
 	gui.add(sleeptime.set("sleeptime", sleeptime, 1, 1000));
-	gui.add(bsendpointcloud.set("send pointcloud", true));
 	gui.loadFromFile("_settings/tcp_sender.xml");
 	
 	start();
@@ -68,15 +68,29 @@ void ncKinectSender::threadedFunction() {
 							client->Close();
 							bisconnected = false;
 						}
+					} else {
+						if (t == "B\n") {
+							mutex.lock();
+							bsendpointcloud = true;
+							mutex.unlock();
+						}
+						
 					}
 					//SEND DATA HERE
 					mutex.lock();
-					int buffersize = buffer.size();
+					if (!bsendpointcloud) {
+						object.vertices.clear();
+					}
+					ncKinectSeDeserializer tcpobject;
+					ofBuffer data = tcpobject.serialize(object);
+
+					int buffersize = data.size();
 					//cout << "wim says sending header with num bytes: " << buffersize << endl;
 					client->SendBytes((char*)&buffersize, sizeof(int));
 					sleep(sleeptime);
 					//cout << "wim says sending data : " << buffersize << endl;
-					client->SendBytes((const char *)buffer.getData(), buffersize);
+					client->SendBytes((const char *)data.getData(), buffersize);
+					bsendpointcloud = false;
 					mutex.unlock();
 					sleep(sleeptime);
 				}
@@ -87,9 +101,12 @@ void ncKinectSender::threadedFunction() {
 	bisthreadrunning = false;
 }
 
-void ncKinectSender::setBuffer(ofBuffer _buffer)
+
+void ncKinectSender::setKinectObject(ncKinectSeDeSerObject _object)
 {
+
 	mutex.lock();
-	buffer = _buffer;
+	object = _object;
 	mutex.unlock();
+
 }

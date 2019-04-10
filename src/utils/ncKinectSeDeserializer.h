@@ -135,7 +135,6 @@ public:
 
 				//create the user
 				ncKinectUser user;
-	
 				object.users.push_back(user);
 				object.users[i].id= skelid;
 				object.users[i].joints2dposition.resize(_ncJointType::ncJointType_Count);

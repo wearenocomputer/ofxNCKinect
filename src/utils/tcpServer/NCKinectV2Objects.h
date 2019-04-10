@@ -4,6 +4,7 @@
 class  NCJoints :public ofNode {
 public:
 	
+	int skeletonid;
 	ofSpherePrimitive sphere;
 	vector<ofVec3f> positions;
 
@@ -71,7 +72,7 @@ public:
 	NCKinectCamera3DModel camera;
 	NCKinectPointcloud3DModel pointcloud;
 	ofVec4f floorplane;
-	vector<NCJoints> heads;
+	vector<NCJoints> joints;
 	ofVec3f cameraposition;
 	ofQuaternion camerarotation;
 
@@ -117,7 +118,6 @@ public:
 			currenttranslation.translate(cameraposition);
 			ofMatrix4x4 currentrotation;
 			currentrotation.rotate(camerarotation);
-
 			setTransformMatrix(mymat*currentrotation*currenttranslation);
 
 			if (bDrawCamera) {
@@ -130,8 +130,8 @@ public:
 
 			if (bDrawJoints) {
 				ofSetColor(skeletoncolor);
-				for (int i = 0; i < heads.size(); i++) {
-					heads[i].customDraw();
+				for (int i = 0; i < joints.size(); i++) {
+					joints[i].customDraw();
 				}
 				ofSetColor(255);
 			}
@@ -159,28 +159,13 @@ public:
 
 			if (bDrawJoints) {
 				ofSetColor(skeletoncolor);
-				for (int i = 0; i < heads.size(); i++) {
-					heads[i].customDraw();
+				for (int i = 0; i < joints.size(); i++) {
+					joints[i].customDraw();
 				}
 				ofSetColor(255);
 			}
 
 			restoreTransformGL();
 		}
-	}
-
-	virtual void setTransformMatrix(const ofMatrix4x4 &m44) {
-		ofVec3f position;
-		ofQuaternion orientation;
-		ofVec3f scale;
-		ofQuaternion so;
-		m44.decompose(position, orientation, scale, so);
-		setPosition(position);
-		setOrientation(orientation);
-		setScale(scale);
-		updateAxis();
-		onPositionChanged();
-		onOrientationChanged();
-		onScaleChanged();
 	}
 };

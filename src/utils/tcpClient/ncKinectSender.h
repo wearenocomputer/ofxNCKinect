@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "socketCS.h"
+#include "ncKinectSeDeserializer.h"
 
 class ncKinectSender : public ofThread {
 
@@ -18,11 +19,10 @@ class ncKinectSender : public ofThread {
 		bool bisthreadrunning;
 		bool bisconnected;
 
-		ofParameter <bool> bsendpointcloud;
+		bool bsendpointcloud;
 
 		ofMutex mutex;
-
-		void setBuffer(ofBuffer _buffer);
+		void setKinectObject(ncKinectSeDeSerObject _object);
 
 private:
 	
@@ -30,8 +30,8 @@ private:
 	string host;
 	int port;
 	SocketClient *client;
-	
-	ofBuffer buffer;
+
+	ncKinectSeDeSerObject object;
 	
 	ofxPanel gui;
 	ofParameter <int> sleeptime;

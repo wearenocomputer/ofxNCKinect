@@ -1,7 +1,5 @@
 #include "ncKinect2dScene.h"
 
-
-
 ofPath ncKinect2dScene::polysToPath(vector<ofPolyline> _polylines) {
 
 	ofPath path;
