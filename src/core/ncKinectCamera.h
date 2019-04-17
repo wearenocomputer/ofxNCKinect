@@ -9,7 +9,7 @@ class nCKinectCamera : public ofNode {
 private:
 
 	void draw();
-	ofVec4f floorplane;
+	
 
 	//GUI
 	ofxPanel gui;
@@ -17,13 +17,13 @@ private:
 	ofParameter <float> kinectcamyposin3dworld;
 	ofParameter <float> kinectcamzposin3dworld;
 	ofParameter <float> kinectyawin3dworld;
-	ofParameter <bool> freezeFloorplane;
 	ofParameter <bool> drawCamera;
 	ofParameter <bool> mapKinectto3DWorld;
 	void setupGUI();
 	int loadcounter;
 	int freezefloorplanecounter;
 	bool floorplaneshouldbein;
+
 public:
 
 	~nCKinectCamera();
@@ -31,6 +31,8 @@ public:
 
 	ofBoxPrimitive model;
 	ofMatrix4x4 realworldkinecttransformmatrix;
+	ofVec4f floorplane;
+	ofParameter <bool> freezeFloorplane;
 
 	void setup();
 

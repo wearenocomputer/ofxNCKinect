@@ -90,12 +90,22 @@ void nCKinectCamera::update(ofVec4f _floorplane){
 		right.z, up.z, forward.z, 0,
 		0, floorplane.w, 0, 1);
 
+
 	ofMatrix4x4 currenttranslation;
 	currenttranslation.translate(ofVec3f(kinectcamxposin3dworld, kinectcamyposin3dworld, kinectcamzposin3dworld));
 	ofMatrix4x4 currentrotation;
 	currentrotation.rotate(ofQuaternion(kinectyawin3dworld, ofVec3f(0, 1, 0)));
 	ofMatrix4x4 currentscale;
 	currentscale.makeScaleMatrix(-1, 1, 1);
+
+	ofVec3f trans;
+	ofQuaternion one;
+	ofQuaternion two;
+	ofVec3f three;
+	mymat.decompose(trans, one, three, two);
+
+	cout << trans << endl;
+
 
 	if (mapKinectto3DWorld) {
 		realworldkinecttransformmatrix = mymat*currentrotation*currenttranslation*currentscale;
