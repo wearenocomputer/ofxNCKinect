@@ -119,7 +119,6 @@ void ncKinectReceiver::threadedFunction() {
 						data = tcpobject.deserialize(buffer);
 
 						//SET MESH
-
 						if (loadedmesh.getNumVertices() > 0) {
 							kinectscene.pointcloud.mesh.getVertices() = loadedmesh.getVertices();
 						}
