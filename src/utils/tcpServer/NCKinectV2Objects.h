@@ -72,7 +72,7 @@ public:
 	NCKinectCamera3DModel camera;
 	NCKinectPointcloud3DModel pointcloud;
 	ofVec4f floorplane;
-	vector<NCJoints> joints;
+	vector<NCJoints> skeletons;
 	ofVec3f cameraposition;
 	ofQuaternion camerarotation;
 
@@ -130,8 +130,8 @@ public:
 
 			if (bDrawJoints) {
 				ofSetColor(skeletoncolor);
-				for (int i = 0; i < joints.size(); i++) {
-					joints[i].customDraw();
+				for (int i = 0; i < skeletons.size(); i++) {
+					skeletons[i].customDraw();
 				}
 				ofSetColor(255);
 			}
@@ -159,8 +159,8 @@ public:
 
 			if (bDrawJoints) {
 				ofSetColor(skeletoncolor);
-				for (int i = 0; i < joints.size(); i++) {
-					joints[i].customDraw();
+				for (int i = 0; i < skeletons.size(); i++) {
+					skeletons[i].customDraw();
 				}
 				ofSetColor(255);
 			}

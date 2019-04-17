@@ -147,7 +147,7 @@ public:
 				int startPosJoints = startjoints + tofind.length();
 				jointsdata += startPosJoints;
 				int stepSizeJoints = sizeof(ofVec3f);
-				//find joints
+				//find skeletons
 				for (int j = 0; j < _ncJointType::ncJointType_Count; j++) {
 					ofVec3f jvalue;
 					memcpy(&jvalue, jointsdata, stepSize);
@@ -156,7 +156,7 @@ public:
 				}
 
 
-				//find the joints rotation data
+				//find the skeletons rotation data
 				string tofindrot = "[SKEL_JOINTS_ROTATION_" + ofToString(i) + "_START]";
 				int delimeterrotbegin = findDelimiter(buffer, tofindrot);
 				int delimeterrotend = delimeterrotbegin + tofindrot.length();
@@ -171,7 +171,7 @@ public:
 					object.users[i].joints3drotation[j] = kvalue;
 				}
 				
-				//find the joints position data 2d
+				//find the skeletons position data 2d
 				string tofindpos2d = "[SKEL_JOINTS_POSITION_2D" + ofToString(i) + "_START]";
 				int delimeterpos2dbegin = findDelimiter(buffer, tofindpos2d);
 				int delimeterpos2dend = delimeterpos2dbegin + tofindpos2d.length();

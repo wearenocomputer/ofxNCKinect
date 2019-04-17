@@ -63,7 +63,7 @@ void ncKinect3dScene::draw() {
 	ofEnableDepthTest();
 
 	if (bDrawGrid) {
-		ofSetColor(0, 0, 0, 100);
+		ofSetColor(255, 255, 255, 100);
 		drawGridOneColor(1, 5, true, true, true, false);
 		ofSetColor(255);
 	}

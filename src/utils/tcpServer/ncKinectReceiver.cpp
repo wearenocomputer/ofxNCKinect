@@ -3,6 +3,8 @@
 //--------------------------------------------------------------
 void ncKinectReceiver::setup(int _port, int _id, int _x, int _y) {
 	
+
+	id = _id;
 	port = _port;
 	bisthreadrunning = false;
 	bisconnected = false;
@@ -13,19 +15,27 @@ void ncKinectReceiver::setup(int _port, int _id, int _x, int _y) {
 	gui.add(kinectcamxpos.set("kinect x pos", 0, -5, 5));
 	gui.add(kinectcamypos.set("kinect y pos", 0, -5, 5));
 	gui.add(kinectcamzpos.set("kinect z pos", 0, -5, 5));
-	gui.add(kinectyrotation.set("kinect y rotation", 0, -90, 90));
+	gui.add(kinectyrotation.set("kinect y rotation", 0, -180, 180));
 	gui.add(buttonAskpointcloud.setup("ask pointcloud"));
+	gui.add(buttonSavemesh.setup("save mesh"));
+	gui.add(buttonLoadmesh.setup("load latest mesh"));
+	gui.add(bdrawpointcloud.set("draw pointcloud",true));
+	gui.add(bdrawjoints.set("draw joints",true));
 	gui.add(bisconnected.set("connected", false));
 
 	gui.loadFromFile("_settings/tcp_receiver_" + ofToString(_id) + ".xml");
 
 	gui.setPosition(_x, _y);
 
-	bAskPointCloud = true;
+	bAskPointCloud = false;
 	buttonAskpointcloud.addListener(this, &ncKinectReceiver::askPointCloudPressed);
+	buttonSavemesh.addListener(this, &ncKinectReceiver::saveMeshPressed);
+	buttonLoadmesh.addListener(this, &ncKinectReceiver::loadMeshPressed);
 
 	kinectscene.setup();
 	
+	loadMeshPressed();
+
 	start();
 }
 
@@ -33,7 +43,11 @@ void ncKinectReceiver::update() {
 
 	kinectscene.cameraposition = ofVec3f(kinectcamxpos, kinectcamypos, kinectcamzpos);
 	kinectscene.camerarotation = ofQuaternion(kinectyrotation, ofVec3f(0, 1, 0));
+
+	kinectscene.bDrawJoints = bdrawjoints;
+	kinectscene.bDrawPointCloud = bdrawpointcloud;
 	
+
 }
 
 void ncKinectReceiver::draw() {
@@ -79,6 +93,7 @@ void ncKinectReceiver::threadedFunction() {
 
 					mutex.lock();
 					if (bAskPointCloud) {
+						
 						s->SendLine("B");
 					}
 					else {
@@ -104,9 +119,17 @@ void ncKinectReceiver::threadedFunction() {
 						data = tcpobject.deserialize(buffer);
 
 						//SET MESH
-						if (data.vertices.size() > 0) {
-							kinectscene.pointcloud.mesh.getVertices() = data.vertices;
+
+						if (loadedmesh.getNumVertices() > 0) {
+							kinectscene.pointcloud.mesh.getVertices() = loadedmesh.getVertices();
 						}
+						else {
+							if (data.vertices.size() > 0) {
+								kinectscene.pointcloud.mesh.getVertices() = data.vertices;
+							}
+						}
+
+						
 						//SET FLOORPLANE
 						kinectscene.floorplane = data.floorplane;
 
@@ -120,7 +143,8 @@ void ncKinectReceiver::threadedFunction() {
 							joints.push_back(joint);
 						}
 						
-						kinectscene.joints = joints;
+						kinectscene.skeletons = joints;
+						
 						mutex.unlock();
 					}
 					else {
@@ -128,6 +152,8 @@ void ncKinectReceiver::threadedFunction() {
 						bisconnected = false;
 						s->Close();
 					}
+
+				
 					sleep(sleeptime);
 				}
 				s->Close();
@@ -153,6 +179,17 @@ ncKinectSeDeSerObject ncKinectReceiver::getData()
 void ncKinectReceiver::askPointCloudPressed()
 {
 	mutex.lock();
+	loadedmesh.clear();
+	loadedmesh.clearVertices();
 	bAskPointCloud = true;
 	mutex.unlock();
+}
+
+void ncKinectReceiver::loadMeshPressed()
+{
+	loadedmesh.load("mesh_" + ofToString(id) + ".obj");
+}
+
+void ncKinectReceiver::saveMeshPressed() {
+	kinectscene.pointcloud.mesh.save("mesh_" + ofToString(id) + ".obj");
 }

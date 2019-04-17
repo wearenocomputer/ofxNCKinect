@@ -23,15 +23,15 @@ class ncKinectReceiver : public ofThread {
 		bool bisthreadrunning;
 
 		ofParameter <bool> bisconnected;
-		
+		int id;
+
 		ncKinectSeDeSerObject getData();
 		ofMutex mutex;
-
-		void askPointCloudPressed();
-
 		NCKinectScene kinectscene;
 
 private:
+
+	ofMesh loadedmesh;
 	SocketServer *receiver_one;
 	
 	ncKinectSeDeSerObject data;
@@ -42,12 +42,18 @@ private:
 	ofParameter <float> kinectcamypos;
 	ofParameter <float> kinectcamzpos;
 	ofParameter <float> kinectyrotation;
+	ofParameter <bool> bdrawpointcloud;
+	ofParameter <bool> bdrawjoints;
+
+
+	ofxButton buttonSavemesh;
+	ofxButton buttonLoadmesh;
 	ofxButton buttonAskpointcloud;
 
 	int port;
-	
-
 	bool bAskPointCloud;
+	void askPointCloudPressed();
 
-
+	void loadMeshPressed();
+	void saveMeshPressed();
 };
