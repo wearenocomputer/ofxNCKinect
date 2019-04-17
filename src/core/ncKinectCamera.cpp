@@ -6,13 +6,26 @@ void nCKinectCamera::setupGUI() {
 	gui.add(new ofxFloatSliderPlus(kinectcamyposin3dworld.set("y pos in 3d world", 0, -5, 5)));
 	gui.add(new ofxFloatSliderPlus(kinectcamzposin3dworld.set("z pos in 3d world", 0, -5, 5)));
 	gui.add(new ofxFloatSliderPlus(kinectyawin3dworld.set("yaw in 3d world", 0, -180, 180)));
-	gui.add(freezeFloorplane.set("freeze floorplane", false));
+	gui.add(buttonFreezeFloorPlane.setup("toggle freeze floorplane"));
+	gui.add(bfloorplaneisfrozen.set("isfloorplanefrozen", false));
 	gui.add(drawCamera.set("draw camera", true));
 	gui.add(mapKinectto3DWorld.set("map Kinect to 3d world", true));
 
 	gui.loadFromFile("_settings/kinectcamera.xml");
 
 	gui.setPosition(10, 470);
+
+	buttonFreezeFloorPlane.addListener(this, &nCKinectCamera::freezeFloorPlanePressed);
+}
+
+void nCKinectCamera::freezeFloorPlanePressed() {
+	bfloorplaneisfrozen = !bfloorplaneisfrozen;
+
+	if (bfloorplaneisfrozen) {
+		floorplane = _incomingfloorplane;
+	}
+
+
 }
 
 nCKinectCamera ::~nCKinectCamera(){
@@ -26,56 +39,15 @@ nCKinectCamera::nCKinectCamera() {
 void nCKinectCamera::setup() {
 	setupGUI();
 	model.set(0.3, 0.1, 0.1);
-	loadcounter = 0;
-	freezefloorplanecounter = 0;
-	floorplaneshouldbein = false;
 }
 
 void nCKinectCamera::update(ofVec4f _floorplane){
 
-	//BUG IN OFXGUIPLUS LOADING VALUES
-	//RELOAD IT HERE THREE TIMES AS FAST AS POSSIBLE
-	if (loadcounter < 3) {
-		if (ofGetFrameNum() % 1 == 0) {
-			loadcounter++;
-			gui.loadFromFile("_settings/kinectcamera.xml");
-		}
-	}
+	_incomingfloorplane = _floorplane;
 
-
-	//EVEN WHEN FREEZE FLOORPLANE IS ON
-	//GIVE THE KINECT 2 FRAMES TO FIND THE FLOORPLANE
-
-	if (ofGetFrameNum() % 120 == 0) {
-
-		freezefloorplanecounter++;
-
-		if (freezefloorplanecounter == 2) {
-			floorplaneshouldbein = true;
-		}
-
-	}
-
-	if (floorplaneshouldbein) {
-		if (!freezeFloorplane) {
-			floorplane = _floorplane;
-		}
-	}
-	else {
+	if (!bfloorplaneisfrozen) {
 		floorplane = _floorplane;
 	}
-
-	
-	/*if (freezefloorplanecounter < 2) {
-		floorplane = _floorplane;
-		if (ofGetFrameNum() % 60 == 0) {
-			freezefloorplanecounter++;
-		}
-	} else {
-		if (!freezeFloorplane) {
-			floorplane = _floorplane;
-		}
-	}*/
 
 	//http://blog.hackandi.com/inst/blog/2014/03/18/convert-kinect-cameraspace-to-worldspace-relative-to-floor/
 	ofVec3f up = ofVec3f(floorplane.x, floorplane.y, floorplane.z);
@@ -97,14 +69,6 @@ void nCKinectCamera::update(ofVec4f _floorplane){
 	currentrotation.rotate(ofQuaternion(kinectyawin3dworld, ofVec3f(0, 1, 0)));
 	ofMatrix4x4 currentscale;
 	currentscale.makeScaleMatrix(-1, 1, 1);
-
-	/*ofVec3f trans;
-	ofQuaternion one;
-	ofQuaternion two;
-	ofVec3f three;
-	mymat.decompose(trans, one, three, two);
-	cout << trans << endl;
-	*/
 
 	if (mapKinectto3DWorld) {
 		realworldkinecttransformmatrix = mymat*currentrotation*currenttranslation*currentscale;

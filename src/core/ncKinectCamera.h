@@ -19,10 +19,14 @@ private:
 	ofParameter <float> kinectyawin3dworld;
 	ofParameter <bool> drawCamera;
 	ofParameter <bool> mapKinectto3DWorld;
+
+	ofxButton buttonFreezeFloorPlane;
+
 	void setupGUI();
-	int loadcounter;
-	int freezefloorplanecounter;
-	bool floorplaneshouldbein;
+	
+
+	void freezeFloorPlanePressed();
+	ofVec4f _incomingfloorplane;
 
 public:
 
@@ -32,7 +36,8 @@ public:
 	ofBoxPrimitive model;
 	ofMatrix4x4 realworldkinecttransformmatrix;
 	ofVec4f floorplane;
-	ofParameter <bool> freezeFloorplane;
+	ofParameter <bool> bfloorplaneisfrozen;
+
 
 	void setup();
 
