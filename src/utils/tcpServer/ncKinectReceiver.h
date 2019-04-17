@@ -44,6 +44,7 @@ private:
 	ofParameter <float> kinectyrotation;
 	ofParameter <bool> bdrawpointcloud;
 	ofParameter <bool> bdrawjoints;
+	ofParameter <bool> bIgnoreHeight;
 
 
 	ofxButton buttonSavemesh;

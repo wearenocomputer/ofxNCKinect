@@ -80,6 +80,7 @@ public:
 	bool bDrawPointCloud;
 	bool bDrawJoints;
 	bool bDrawCamera;
+	bool bIgnoreHeight;
 
 	ofColor skeletoncolor;
 		
@@ -91,6 +92,7 @@ public:
 		bDrawCamera = true;
 		bDrawJoints = true;
 		bDrawPointCloud = true;
+		bIgnoreHeight = false;
 		camera.setup();
 		pointcloud.setup();
 		srand(time(NULL));
@@ -113,6 +115,16 @@ public:
 				right.y, up.y, forward.y, 0,
 				right.z, up.z, forward.z, 0,
 				0, floorplane.w, 0, 1);
+
+
+			if (bIgnoreHeight) {
+				ofVec3f trans;
+				ofQuaternion rot;
+				ofVec3f scale;
+				ofQuaternion so;
+				mymat.decompose(trans, rot, scale, so);
+				cameraposition.y = cameraposition.y - trans.y;
+			}
 
 			ofMatrix4x4 currenttranslation;
 			currenttranslation.translate(cameraposition);
@@ -141,6 +153,7 @@ public:
 
 			transformGL();
 			resetTransform();
+
 			ofMatrix4x4 currenttranslation;
 			currenttranslation.translate(cameraposition);
 

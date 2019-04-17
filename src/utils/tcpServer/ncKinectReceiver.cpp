@@ -21,6 +21,7 @@ void ncKinectReceiver::setup(int _port, int _id, int _x, int _y) {
 	gui.add(buttonLoadmesh.setup("load latest mesh"));
 	gui.add(bdrawpointcloud.set("draw pointcloud",true));
 	gui.add(bdrawjoints.set("draw joints",true));
+	gui.add(bIgnoreHeight.set("ignore height", false));
 	gui.add(bisconnected.set("connected", false));
 
 	gui.loadFromFile("_settings/tcp_receiver_" + ofToString(_id) + ".xml");
@@ -46,8 +47,7 @@ void ncKinectReceiver::update() {
 
 	kinectscene.bDrawJoints = bdrawjoints;
 	kinectscene.bDrawPointCloud = bdrawpointcloud;
-	
-
+	kinectscene.bIgnoreHeight = bIgnoreHeight;
 }
 
 void ncKinectReceiver::draw() {
