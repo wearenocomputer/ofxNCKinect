@@ -23,7 +23,7 @@ private:
 	ofxButton buttonFreezeFloorPlane;
 
 	void setupGUI();
-	
+	ofVec4f floorplane;
 
 	void freezeFloorPlanePressed();
 	ofVec4f _incomingfloorplane;
@@ -35,7 +35,7 @@ public:
 
 	ofBoxPrimitive model;
 	ofMatrix4x4 realworldkinecttransformmatrix;
-	ofVec4f floorplane;
+	
 	ofParameter <bool> bfloorplaneisfrozen;
 
 
