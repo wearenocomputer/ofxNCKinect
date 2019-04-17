@@ -24,8 +24,6 @@ void nCKinectCamera::freezeFloorPlanePressed() {
 	if (bfloorplaneisfrozen) {
 		floorplane = _incomingfloorplane;
 	}
-
-
 }
 
 nCKinectCamera ::~nCKinectCamera(){
