@@ -1,12 +1,13 @@
 #include "ncKinectReceiver.h"
 
 //--------------------------------------------------------------
-void ncKinectReceiver::setup(int _port, int _id, int _x, int _y) {
+void ncKinectReceiver::setup(int _port, string _host, int _id, int _x, int _y) {
 	
-
 	id = _id;
 	port = _port;
+	host = _host;
 	bisthreadrunning = false;
+	bisconnected = false;
 	bisconnected = false;
 	sleeptime = 5;
 
@@ -60,15 +61,17 @@ void ncKinectReceiver::drawGUI() {
 }
 
 void ncKinectReceiver::start() {
-	bisconnected = false;
+	
 	startThread();
 }
 
 void  ncKinectReceiver::stop() {
 	if (bisthreadrunning) {
-		receiver_one->Close();
-		delete receiver_one;
-		receiver_one = NULL;
+		
+		receiver->Close();
+		delete receiver;
+		receiver = NULL;
+		bisconnected = false;
 		bisthreadrunning = false;
 		waitForThread();
 	}
@@ -76,91 +79,88 @@ void  ncKinectReceiver::stop() {
 
 //--------------------------------------------------------------
 void ncKinectReceiver::threadedFunction() {
-	cout << "START THREAD" << endl;
-	receiver_one = new SocketServer(port, NonBlockingSocket);
+
 	bisthreadrunning = true;
-	
 	while (bisthreadrunning) {
-		    cout << "WAIT FOR SENDER" << endl;
-
-			NCSocket *s = receiver_one->Accept();
-
+		receiver = new SocketClient(host, port);
+		bisconnected = receiver->connect();
+		
+		while (bisconnected) {
 			bool bWorkdone = false;
-			bisconnected = true;
+			while (!bWorkdone) {
 
-			    cout << "SENDER CONNECTED" << endl;
-				while (!bWorkdone) {
-
-					mutex.lock();
-					if (bAskPointCloud) {
-						
-						s->SendLine("B");
-					}
-					else {
-						s->SendLine("A");
-					}
-					bAskPointCloud = false;
-					mutex.unlock();
-
-					sleep(sleeptime);
-
-					int numofbytestoreceive = s->ReceiveBytesInt();
-					if (numofbytestoreceive == 0) {
+				mutex.lock();
+				if (bAskPointCloud) {
+					int t = receiver->SendLine("B");
+					if (t == -1) {
+						receiver->Close();
 						bWorkdone = true;
 						bisconnected = false;
-						s->Close();
 					}
-					sleep(sleeptime);
-
-					ofBuffer buffer = s->ReceiveBytesofBuffer(numofbytestoreceive);
-					if (buffer.size() > 0) {
-						mutex.lock();
-						ncKinectSeDeserializer tcpobject;
-						data = tcpobject.deserialize(buffer);
-
-						//SET MESH
-						if (loadedmesh.getNumVertices() > 0) {
-							kinectscene.pointcloud.mesh.getVertices() = loadedmesh.getVertices();
-						}
-						else {
-							if (data.vertices.size() > 0) {
-								kinectscene.pointcloud.mesh.getVertices() = data.vertices;
-							}
-						}
-
-						
-						//SET FLOORPLANE
-						kinectscene.floorplane = data.floorplane;
-
-						//SET USERS/SKELETONS
-						vector<NCJoints> joints;
-						for (int i = 0; i < data.users.size(); i++) {
-							NCJoints joint;
-							joint.skeletonid = data.users[i].id;
-							joint.setup();
-							joint.positions = data.users[i].joints3dposition;
-							joints.push_back(joint);
-						}
-						
-						kinectscene.skeletons = joints;
-						
-						mutex.unlock();
-					}
-					else {
-						bWorkdone = true;
-						bisconnected = false;
-						s->Close();
-					}
-
-				
-					sleep(sleeptime);
 				}
-				s->Close();
-				bisconnected = false;
-	
+				else {
+					int t= receiver->SendLine("A");
+					if (t == -1) {
+						receiver->Close();
+						bWorkdone = true;
+						bisconnected = false;
+					}
+				}
+				bAskPointCloud = false;
+				mutex.unlock();
+
+				sleep(sleeptime);
+				int numofbytestoreceive = receiver->ReceiveBytesInt();
+				if (numofbytestoreceive == 0) {
+					bWorkdone = true;
+					bisconnected = false;
+					receiver->Close();
+				}
+				sleep(sleeptime);
+
+				ofBuffer buffer = receiver->ReceiveBytesofBuffer(numofbytestoreceive);
+				if (buffer.size() > 0) {
+					mutex.lock();
+					ncKinectSeDeserializer tcpobject;
+					data = tcpobject.deserialize(buffer);
+
+					//SET MESH
+					if (loadedmesh.getNumVertices() > 0) {
+						kinectscene.pointcloud.mesh.getVertices() = loadedmesh.getVertices();
+					}
+					else {
+						if (data.vertices.size() > 0) {
+							kinectscene.pointcloud.mesh.getVertices() = data.vertices;
+						}
+					}
+
+					//SET FLOORPLANE
+					kinectscene.floorplane = data.floorplane;
+
+					//SET USERS/SKELETONS
+					vector<NCJoints> joints;
+					for (int i = 0; i < data.users.size(); i++) {
+						NCJoints joint;
+						joint.skeletonid = data.users[i].id;
+						joint.setup();
+						joint.positions = data.users[i].joints3dposition;
+						joints.push_back(joint);
+					}
+
+					kinectscene.skeletons = joints;
+
+					mutex.unlock();
+				}
+				else {
+					bWorkdone = true;
+					bisconnected = false;
+					receiver->Close();
+				}
+				sleep(sleeptime);
+
+			}
+		}
 	}
-	bisconnected = false;
-	bisthreadrunning = false;
 
 }
 

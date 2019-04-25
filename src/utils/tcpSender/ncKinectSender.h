@@ -8,7 +8,7 @@
 class ncKinectSender : public ofThread {
 
 	public:
-		void setup(int _id, string _host, int _port);
+		void setup(int _id, int _port);
 		void drawGUI();
 
 		void start();
@@ -27,9 +27,9 @@ class ncKinectSender : public ofThread {
 private:
 	
 	int id;
-	string host;
 	int port;
-	SocketClient *client;
+
+	SocketServer *sender;
 
 	ncKinectSeDeSerObject object;
 	

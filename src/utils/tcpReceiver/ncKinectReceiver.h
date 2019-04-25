@@ -9,7 +9,7 @@
 class ncKinectReceiver : public ofThread {
 
 	public:
-		void setup(int _port, int _id, int _x, int _y);
+		void setup(int _port, string _host, int _id, int _x, int _y);
 		void update();
 		void draw();
 
@@ -32,8 +32,9 @@ class ncKinectReceiver : public ofThread {
 private:
 
 	ofMesh loadedmesh;
-	SocketServer *receiver_one;
-	
+
+	SocketClient *receiver;
+
 	ncKinectSeDeSerObject data;
 
 	ofxPanel gui;
@@ -52,6 +53,7 @@ private:
 	ofxButton buttonAskpointcloud;
 
 	int port;
+	string host;
 	bool bAskPointCloud;
 	void askPointCloudPressed();
 

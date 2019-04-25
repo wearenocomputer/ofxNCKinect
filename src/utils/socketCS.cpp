@@ -169,14 +169,16 @@ std::string NCSocket::ReceiveLine() {
   }
 }
 
-void NCSocket::SendLine(std::string s) {
+int NCSocket::SendLine(std::string s) {
   s += '\n';
   int r = send(s_,s.c_str(),s.length(),0);
- // cout << r << endl;
+ 
+  return r;
 }
 
-void NCSocket::SendBytes(const char *buf, int len) {
-  send(s_,buf,len,0);
+int NCSocket::SendBytes(const char *buf, int len) {
+	int r = send(s_,buf,len,0);
+	return r;
 }
 
 SocketServer::SocketServer(int port, int connections, TypeSocket type) {
@@ -245,7 +247,7 @@ bool SocketClient::connect() {
 		return false;
 	}
 	else {
-		cout << "connected" << endl;
+		//cout << "connected" << endl;
 		return true;
 	}
 

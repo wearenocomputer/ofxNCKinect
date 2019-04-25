@@ -62,12 +62,12 @@ public:
 
   // The parameter of SendLine is not a const reference
   // because SendLine modifes the std::string passed.
-  void   SendLine (std::string);
+  int   SendLine (std::string);
 
   // The parameter of SendBytes is a const reference
   // because SendBytes does not modify the std::string passed 
   // (in contrast to SendLine).
-  void   SendBytes(const char *buf, int len);
+  int   SendBytes(const char *buf, int len);
 
 protected:
   friend class SocketServer;
