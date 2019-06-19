@@ -16,7 +16,10 @@ void ncKinectReceiver::setup(int _port, string _host, int _id, int _x, int _y) {
 	gui.add(kinectcamxpos.set("kinect x pos", 0, -5, 5));
 	gui.add(kinectcamypos.set("kinect y pos", 0, -5, 5));
 	gui.add(kinectcamzpos.set("kinect z pos", 0, -5, 5));
+
+	gui.add(kinectxrotation.set("kinect x rotation", 0, -180, 180));
 	gui.add(kinectyrotation.set("kinect y rotation", 0, -180, 180));
+	gui.add(kinectzrotation.set("kinect z rotation", 0, -180, 180));
 	gui.add(buttonAskpointcloud.setup("ask pointcloud"));
 	gui.add(buttonSavemesh.setup("save mesh"));
 	gui.add(buttonLoadmesh.setup("load latest mesh"));
@@ -44,7 +47,7 @@ void ncKinectReceiver::setup(int _port, string _host, int _id, int _x, int _y) {
 void ncKinectReceiver::update() {
 
 	kinectscene.cameraposition = ofVec3f(kinectcamxpos, kinectcamypos, kinectcamzpos);
-	kinectscene.camerarotation = ofQuaternion(kinectyrotation, ofVec3f(0, 1, 0));
+	kinectscene.camerarotation = ofQuaternion(kinectxrotation, ofVec3f(1, 0, 0) ,kinectyrotation, ofVec3f(0, 1, 0),kinectzrotation, ofVec3f(0, 0, 1));
 
 	kinectscene.bDrawJoints = bdrawjoints;
 	kinectscene.bDrawPointCloud = bdrawpointcloud;

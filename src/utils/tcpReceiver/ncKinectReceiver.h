@@ -43,6 +43,8 @@ private:
 	ofParameter <float> kinectcamypos;
 	ofParameter <float> kinectcamzpos;
 	ofParameter <float> kinectyrotation;
+	ofParameter <float> kinectxrotation;
+	ofParameter <float> kinectzrotation;
 	ofParameter <bool> bdrawpointcloud;
 	ofParameter <bool> bdrawjoints;
 	ofParameter <bool> bIgnoreHeight;

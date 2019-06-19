@@ -103,8 +103,7 @@ public:
 	virtual void customDraw() {
 
 		if (bDoCameraToWorld) {
-			restoreTransformGL();
-			transformGL();
+			
 			//http://blog.hackandi.com/inst/blog/2014/03/18/convert-kinect-cameraspace-to-worldspace-relative-to-floor/
 			ofVec3f up = ofVec3f(floorplane.x, floorplane.y, floorplane.z);
 			ofVec3f forward = up.getCrossed(ofVec3f(1, 0, 0));
@@ -126,10 +125,14 @@ public:
 				cameraposition.y = cameraposition.y - trans.y;
 			}
 
-			ofMatrix4x4 currenttranslation;
-			currenttranslation.translate(cameraposition);
 			ofMatrix4x4 currentrotation;
 			currentrotation.rotate(camerarotation);
+			ofMatrix4x4 currenttranslation;
+			currenttranslation.translate(cameraposition);
+			
+			restoreTransformGL();
+			transformGL();
+
 			setTransformMatrix(mymat*currentrotation*currenttranslation);
 
 			if (bDrawCamera) {
